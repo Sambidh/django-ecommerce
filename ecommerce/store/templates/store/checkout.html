@@ -4,6 +4,7 @@
   <div class="col-lg-6">
     <div class="box-element" id="form-wrapper">
       <form id="form">
+        {% csrf_token %}
         <div id="user-info">
           <div class="form-field">
             <input
@@ -121,6 +122,9 @@
 
   var form = document.getElementById("form");
 
+  csrf_token = form.getElementsByTagName("input")[0].value;
+  console.log("Newtoken:", form.getElementsByTagName("input")[0].value);
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     console.log("Form Submitted...");
@@ -175,6 +179,10 @@
       .then((data) => {
         console.log("Success:", data);
         alert("Transaction completed");
+
+        cart = {};
+        document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+
         windows.location.href = "{% url 'store' %}";
       });
   }
